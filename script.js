@@ -41,17 +41,17 @@ document.getElementById("submitBook").addEventListener("click", () => {
     const pages = document.getElementById("pages").value;
     const readStatus = document.getElementById("readStatus").value;
 
-    if (title && author && pages) {
-        addBookToLibrary(title, author, pages, readStatus);
-        document.getElementById("bookFormContainer").classList.add("hidden");
+    // if (title && author && pages) {
+    addBookToLibrary(title, author, pages, readStatus);
+    document.getElementById("bookFormContainer").classList.add("hidden");
 
-        document.getElementById("title").value = "";
-        document.getElementById("author").value = "";
-        document.getElementById("pages").value = "";
-    }
-    else {
-        alert("Please fill out all details");
-    }
+    document.getElementById("title").value = "";
+    document.getElementById("author").value = "";
+    document.getElementById("pages").value = "";
+    // }
+    // else {
+    //     alert("Please fill out all details");
+    // }
 
 });
 
@@ -85,9 +85,9 @@ function toggleReadStatus(id) {
     }
 }
 
-function removeBook(id){
+function removeBook(id) {
     const index = myLibrary.findIndex(book => book.id == id);
-    if(index !== -1){
+    if (index !== -1) {
         myLibrary.splice(index, 1);
         displayBooks();
     }
