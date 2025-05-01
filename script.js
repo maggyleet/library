@@ -1,7 +1,6 @@
 const myLibrary = [];
 
 function Book(title, author, pages, readStatus) {
-    // the constructor...
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -9,7 +8,6 @@ function Book(title, author, pages, readStatus) {
     this.id = crypto.randomUUID();
 }
 
-// Prototype function to toggle read status
 Book.prototype.toggleReadStatus = function () {
     if (this.readStatus === "Read") {
         this.readStatus = "Not Read";
@@ -21,7 +19,6 @@ Book.prototype.toggleReadStatus = function () {
 };
 
 function addBookToLibrary(title, author, pages, readStatus) {
-    // take params, create a book then store it in the array
     const newBook = new Book(title, author, pages, readStatus);
     myLibrary.push(newBook);
     displayBooks();
@@ -35,24 +32,48 @@ document.getElementById("cancelBook").addEventListener("click", () => {
     document.getElementById("bookFormContainer").classList.add("hidden");
 });
 
-document.getElementById("submitBook").addEventListener("click", () => {
-    const title = document.getElementById("title").value;
-    const author = document.getElementById("author").value;
-    const pages = document.getElementById("pages").value;
-    const readStatus = document.getElementById("readStatus").value;
+const form = document.getElementById("bookForm");
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const pagesInput = document.getElementById("pages");
+const statusInput = document.getElementById("readStatus");
 
-    // if (title && author && pages) {
+document.getElementById("submitBook").addEventListener("click", function (e) {
+    titleInput.setCustomValidity("");
+    authorInput.setCustomValidity("");
+    pagesInput.setCustomValidity("");
+    statusInput.setCustomValidity("");
+
+    if (titleInput.value.trim() === "") {
+        titleInput.setCustomValidity("Please enter the book title.");
+    }
+
+    if (authorInput.value.trim() === "") {
+        authorInput.setCustomValidity("Please enter the author's name.");
+    }
+
+    if (pagesInput.value === "" || Number(pagesInput.value) <= 0) {
+        pagesInput.setCustomValidity("Please enter a valid number of pages.");
+    }
+
+    if (statusInput.value === "") {
+        statusInput.setCustomValidity("Please select the read status.");
+    }
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        e.preventDefault();
+        return;
+    }
+
+    const title = titleInput.value.trim();
+    const author = authorInput.value.trim();
+    const pages = pagesInput.value;
+    const readStatus = statusInput.value;
+
     addBookToLibrary(title, author, pages, readStatus);
+    form.reset();
     document.getElementById("bookFormContainer").classList.add("hidden");
-
-    document.getElementById("title").value = "";
-    document.getElementById("author").value = "";
-    document.getElementById("pages").value = "";
-    // }
-    // else {
-    //     alert("Please fill out all details");
-    // }
-
 });
 
 function displayBooks() {
